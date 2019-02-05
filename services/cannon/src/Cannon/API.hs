@@ -177,7 +177,7 @@ singlePush notification (PushTarget usrid conid) = do
             e <- wsenv
             b <- notification
             runWS e $
-                (sendMsg b k x >> return PushStatusOk)
+                (timeout 1000000 (sendMsg b k x) >> return PushStatusOk)
                 `catchAll`
                 const (terminate k x >> return PushStatusGone)
 
